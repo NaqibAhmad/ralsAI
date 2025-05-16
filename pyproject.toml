@@ -7,6 +7,8 @@ requires-python = ">=3.13"
 dependencies = [
     "agno>=1.5.0",
     "cohere>=5.15.0",
+    "discord-py>=2.5.2",
+    "fastapi>=0.115.12",
     "fastembed>=0.7.0",
     "groq>=0.24.0",
     "lancedb>=0.22.0",
@@ -14,4 +16,5 @@ dependencies = [
     "openai>=1.78.1",
     "requests>=2.32.3",
     "tantivy>=0.24.0",
+    "uvicorn>=0.34.2",
 ]
