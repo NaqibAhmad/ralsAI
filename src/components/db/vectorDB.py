@@ -1,21 +1,26 @@
+import os
 from agno.knowledge.url import UrlKnowledge
-from agno.vectordb.lancedb import LanceDb, SearchType
-from agno.embedder.cohere import CohereEmbedder
+from agno.vectordb.pgvector import PgVector, SearchType
+from agno.embedder.openai import OpenAIEmbedder
+from dotenv import load_dotenv
 
-class VectorDBKnowledge:
-    def __init__(self):
-        self.knowledge = UrlKnowledge(
-            urls=["https://docs.google.com/document/d/1c5nmmUoRD6qnki09GONhxRqSuSY0uPkB88fooaK_ua8/edit?usp=sharing"],
-            vector_db=LanceDb(
-                uri="tmp/lancedb",
-                table_name="server_docs",
-                search_type=SearchType.hybrid,
-                embedder=CohereEmbedder(api_key="ssIR2YhhbXS1bXQB6Ow0EkZlAVGDO6FS8c9GEyqJ"),
-            ),
-        )
-        self.knowledge.load(recreate=False)
+load_dotenv()
 
-    
+groq_api_key = os.getenv('GROQ_API_KEY')
+open_ai_key = os.getenv("OPENAI_API_KEY")
 
-    def __call__(self, query: str):
-        return self.knowledge.search(query)
+
+db_url = "postgresql+psycopg2://ai:ai@localhost:5532/ai"
+
+vector_db = PgVector(table_name="rals_ai", 
+                        db_url=db_url, 
+                        search_type=SearchType.hybrid,
+                        embedder=OpenAIEmbedder(id="text-embedding-3-small", api_key=open_ai_key),
+                        )
+
+knowledge = UrlKnowledge(
+    urls=["https://docs.google.com/document/d/1c5nmmUoRD6qnki09GONhxRqSuSY0uPkB88fooaK_ua8/edit?usp=sharing"],
+    vector_db=vector_db,
+)
+
+# knowledge.load(recreate= True, skip_existing=True)

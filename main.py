@@ -38,10 +38,7 @@ async def on_message(message: discord.Message):
             print(f"🤖 Agent response: {agent_response}")
 
             # Extract assistant message
-            assistant_message = next(
-                (msg.content for msg in getattr(agent_response, "messages", []) if msg.role == "assistant"),
-                None
-            )
+            assistant_message = getattr(agent_response, "content", None)
 
             if not assistant_message:
                 assistant_message = "🤖 I couldn't generate a response."
