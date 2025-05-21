@@ -2,8 +2,8 @@ from agno.agent import Agent
 from dotenv import load_dotenv
 import os
 # from agno.models.groq import Groq
-from agno.models.openai import OpenAIChat
-
+# from agno.models.openai import OpenAIChat
+from agno.models.mistral import MistralChat
 from src.components.db.vectorDB import knowledge
 
 load_dotenv()
@@ -11,10 +11,10 @@ load_dotenv()
 discord_token = os.getenv('DISCORD_TOKEN')
 # groq_api_key = os.getenv('GROQ_API_KEY')
 open_ai_key = os.getenv("OPENAI_API_KEY")
-
+Mistral_Key = os.getenv("MISTRAL_API_KEY")
 
 # agent = Agent(model = Groq(id= "meta-llama/llama-4-scout-17b-16e-instruct", api_key=groq_api_key),
-agent = Agent(model = OpenAIChat(id= "gpt-4.1-mini", api_key=open_ai_key),
+agent = Agent(model = MistralChat(id= "mistral-small-latest", api_key=Mistral_Key),
         tools=[],
         show_tool_calls=True,
         instructions=[
