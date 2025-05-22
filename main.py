@@ -1,16 +1,19 @@
 import discord
 import os
+from dotenv import load_dotenv
+
 from src.components.agents.GroqAgent import agent
 from src.components.utils.intentClassifier import classify_intent
 from src.components.prompts.serverInfoPrompt import generate_server_prompt
 from src.components.prompts.userInfoPrompt import generate_user_prompt
 from src.components.utils.messageUtils import extract_clean_user_message
+from src.components.utils.eventReminder import handle_event_or_reminder
+from src.components.utils.personalityManager import set_personality, get_personality, format_with_personality
 
-from dotenv import load_dotenv
 load_dotenv()
 
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL_ID = int(os.getenv('CHANNEL_ID'))  # Ensure it's an integer
+CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
 print(f"Channel ID: {CHANNEL_ID}")
 
 intents = discord.Intents.default()
@@ -20,6 +23,8 @@ intents.guilds = True
 
 client = discord.Client(intents=intents)
 
+VALID_PERSONALITIES = {"normal", "friendly", "sarcastic", "dark humor", "dark humor sarcastic", "flirty"}
+
 @client.event
 async def on_ready():
     print(f'✅ Logged in as {client.user} (ID: {client.user.id})')
@@ -28,20 +33,35 @@ async def on_ready():
 @client.event
 async def on_message(message: discord.Message):
     if message.author.bot:
-        return  # Ignore messages from bots
+        return
 
-    # Only respond if bot is mentioned and in the correct channel
+    if await handle_event_or_reminder(message):
+        return
+
     if client.user in message.mentions:
         user_mention = message.author.mention
         user_message = extract_clean_user_message(message, client.user.id)
 
         print(f"📩 Mention detected from {user_mention}: {user_message}")
 
+        # 🧠 Check if the user is trying to change personality
+        if "set personality to" in user_message.lower():
+            parts = user_message.lower().split("set personality to")
+            if len(parts) > 1:
+                new_persona = parts[1].strip()
+                if new_persona in VALID_PERSONALITIES:
+                    set_personality(message.guild.id, new_persona)
+                    await message.channel.send(f"{user_mention} Personality switched to **{new_persona}** 🧠")
+                else:
+                    await message.channel.send(
+                        f"{user_mention} Invalid personality. Choose one of: {', '.join(VALID_PERSONALITIES)}"
+                    )
+                return
+
         try:
             intent = classify_intent(user_message)
             print(f"🔍 Detected intent: {intent}")
 
-            # 🔁 Inject prompt based on intent
             if intent == "server_info":
                 input_prompt = generate_server_prompt(user_message, message.guild)
             elif intent == "user_info":
@@ -49,7 +69,11 @@ async def on_message(message: discord.Message):
             else:
                 input_prompt = f"This is the message from user: {user_message}. Generate a response according to the user message"
 
-            # 💬 Run through LLM agent
+            # 🧠 Personality formatting
+            personality = get_personality(message.guild.id)
+            input_prompt = format_with_personality(input_prompt, personality)
+
+            # 💬 Generate response
             agent_response = agent.run(message=input_prompt)
             assistant_message = getattr(agent_response, "content", None) or "🤖 I couldn't generate a response."
 
