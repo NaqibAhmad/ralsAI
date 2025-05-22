@@ -1,20 +1,54 @@
-from agno.agent import Agent
-from dotenv import load_dotenv
+import discord
 import os
-from agno.models.groq import Groq
-
+from src.components.agents.GroqAgent import agent
+from dotenv import load_dotenv
 load_dotenv()
 
-discord_token = os.getenv('DISCORD_TOKEN')
-groq_api_key = os.getenv('GROQ_API_KEY')
+DISCORD_BOT_TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL_ID = int(os.getenv('CHANNEL_ID'))  # Ensure it's an integer
+print(f"Channel ID: {CHANNEL_ID}")
 
-agent = Agent(model = Groq(id= "meta-llama/llama-4-scout-17b-16e-instruct", api_key=groq_api_key),
-                tools=[],
-                show_tool_calls=True,
-                instructions=[
-                    "You are a discord moderator that contains information about the server. Your job is to provide responses to the user's queries. Generate Plain Text with no formatting as responses. Keep the responses short , concise and to the point",
-                    "Server Name : THE RALS , Server Owner: Kat , Lips wala Owner : Anu , Top Members : Umair and Nikki",                    
-                ],
-                markdown=True,
-                debug_mode=True,
-                )
+intents = discord.Intents.default()
+intents.message_content = True
+intents.messages = True
+intents.guilds = True
+
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_ready():
+    print(f'✅ Logged in as {client.user} (ID: {client.user.id})')
+
+@client.event
+async def on_message(message: discord.Message):
+    if message.author.bot:
+        return  # Ignore messages from bots
+
+    # Only respond if mentioned and in correct channel
+    if client.user in message.mentions and message.channel.id == CHANNEL_ID:
+        user_mention = message.author.mention
+        user_message = message.clean_content.replace(f"<@{client.user.id}>", "").strip()
+
+        print(f"📩 Mention detected from {user_mention}: {user_message}")
+
+        try:
+            # Generate response from agent
+            agent_response = agent.run(
+                message=f"This is the message from user: {user_message}. Generate a response according to the user message"
+            )
+            print(f"🤖 Agent response: {agent_response}")
+
+            # Extract assistant message
+            assistant_message = getattr(agent_response, "content", None)
+
+            if not assistant_message:
+                assistant_message = "🤖 I couldn't generate a response."
+
+            # Reply by mentioning the user
+            await message.channel.send(f"{user_mention} {assistant_message}")
+
+        except Exception as e:
+            print("❌ Error:", e)
+            await message.channel.send(f"{user_mention} Sorry, I encountered an error while trying to respond.")
+
+client.run(DISCORD_BOT_TOKEN)

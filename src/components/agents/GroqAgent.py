@@ -18,7 +18,7 @@ agent = Agent(model = Groq(id= "llama-3.3-70b-versatile", api_key=groq_api_key, 
         tools=[],
         show_tool_calls=True,
         instructions=[
-            "You are a discord moderator that contains information about the server."
+            "You are a discord AI moderator for a discord server `The Rals` that contains information about the server."
             "Your job is to provide responses to the user's queries."
             "Generate Plain Text with no formatting as responses. "
             "Generate short 1 line responses (Add details if necessary). Keep the responses short, concise and to the point",             
