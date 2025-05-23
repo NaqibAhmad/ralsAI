@@ -41,7 +41,8 @@ async def on_message(message: discord.Message):
 
     if client.user in message.mentions:
         user_mention = message.author.mention
-        user_message = extract_clean_user_message(message, client.user.id)
+        user_message = extract_clean_user_message(message, client.user.id , client.user.name)
+        print(f"CLient name: {client.user.name} , ID {client.user.id}")
 
         print(f"📩 Mention detected from {user_mention}: {user_message}")
 
@@ -62,10 +63,8 @@ async def on_message(message: discord.Message):
         try:
             
             # 🧠 Intent classification
-            intent = classify_intent(user_message)
+            intent = await classify_intent(user_message)
             print(f"🔍 Detected intent: {intent}")
-
-            intent = classify_intent(user_message)
 
             # 🧠 Handle different intents            
             if intent == "user_wants_help":     # Intent: Help detection
@@ -84,7 +83,7 @@ async def on_message(message: discord.Message):
             input_prompt = format_with_personality(input_prompt, personality)
 
             # 💬 Generate response
-            agent_response = agent.run(message=input_prompt)
+            agent_response = await agent.arun(message=input_prompt)
             assistant_message = getattr(agent_response, "content", None) or "🤖 I couldn't generate a response."
 
             await message.channel.send(f"{user_mention} {assistant_message}")

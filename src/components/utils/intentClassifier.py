@@ -2,15 +2,13 @@ from agno.agent import Agent
 from agno.models.groq import Groq
 import os
 
+import discord
+
 # A separate low-temp model just for classification (or reuse your agent)
 intent_agent = Agent(
     model=Groq(id="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"), temperature=0),
     tools=[],
     instructions=[
-        "You are an intent classifier. Your job is to classify the user's query into one of the following categories: "
-        "'server_info', 'user_info', or 'general'. "
-        " Some discord users might change their usernames, so use the user ID to identify them. "
-        "Only return the classification keyword without explanation."
         """
             ### ENFORCED INSTRUCTIONS FOR INTENT CLASSIFICATION
                 a. You are an intent classifier. Your job is to classify the user's query into one of the following categories:
@@ -28,9 +26,9 @@ intent_agent = Agent(
     markdown=False,
 )
 
-def classify_intent(message: str) -> str:
+async def classify_intent(message: str) -> str:
     try:
-        result = intent_agent.run(message=f"Classify this message: '{message}'")
+        result = await intent_agent.arun(message=f"Classify this message: '{message}'")
         intent = getattr(result, "content", "general").strip().lower()
         if intent not in ["user_wants_help","server_info", "user_info", "general"]:
             return "general"
@@ -41,10 +39,11 @@ def classify_intent(message: str) -> str:
 
 
 # DYANMIC CHANNEL CLASSIFICATION
-def is_helpful_channel(channel_name: str, message: str, topic: str = "") -> bool:
+async def is_helpful_channel(channel_name: str, message: str, topic: str = "") -> bool:
     from agno.agent import Agent
     from agno.models.groq import Groq
     import os
+    print("Message in Params from User: ", message)
 
     classifier = Agent(
         model=Groq(id="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"), temperature=0),
@@ -62,13 +61,45 @@ def is_helpful_channel(channel_name: str, message: str, topic: str = "") -> bool
     prompt = f"""
     Channel name: {channel_name}
     Channel topic: {topic}
-    Is this channel likely to contain help-related messages? (yes/no)
+    Is this channel likely to contain help-related messages about the user query? : {message} (yes/no)
     """
     
     try:
-        result = classifier.run(message=prompt)
+        result = await classifier.arun(message=prompt)
         answer = getattr(result, "content", "").strip().lower()
         return answer == "yes"
+    except Exception as e:
+        print(f"Channel help detection error: {e}")
+        return False
+    
+async def is_helpful_category(category_name: str, message: str,) -> bool:
+    from agno.agent import Agent
+    from agno.models.groq import Groq
+    import os
+    print("Message in Params from User: ", message)
+
+    classifier = Agent(
+        model=Groq(id="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"), temperature=0),
+        tools=[],
+        instructions= f"""
+            "You are a classifier that determines if a Discord Guild Category is likely to contain messages that are helpful or support questions regarding the user query: '{message}'.
+            "Your task is to analyze the category name and user's message, and decide if the category is likely to contain helpful messages or support questions.
+            "Return 'yes' if the category is likely to contain helpful messages or support questions. Return 'no' otherwise.",
+            "Only return 'yes' or 'no'."
+        """,
+        show_tool_calls=False,
+        markdown=False,
+    )
+
+    prompt = f"""
+    Category name: {category_name}
+    Is this category likely to contain help-related messages: {message}? (yes/no)
+    """
+    
+    try:
+        result = await classifier.arun(message=prompt)
+        answer = getattr(result, "content", "").strip().lower()
+        return answer == "yes" # returns Bool True if answer contains yes else returns False
     except Exception as e:
         print(f"Channel help detection error: {e}")
         return False
