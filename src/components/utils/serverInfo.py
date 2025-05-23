@@ -5,7 +5,7 @@ def get_server_info(guild: Guild) -> dict:
         "name": guild.name,
         "created_at": guild.created_at.strftime("%B %d, %Y"),
         "member_count": guild.member_count,
-        "owner": "This server has 4 owners, Kat, Anu, Muski, Tribb. Muski is co-owner, the rest are equal owners.",
+        # "owner": "This server has 4 owners, Kat, Anu, Muski, Tribb. Muski is co-owner, the rest are equal owners.",
         "id": guild.id,
     }
 

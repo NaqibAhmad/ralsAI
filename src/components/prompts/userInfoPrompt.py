@@ -1,4 +1,7 @@
-def generate_user_prompt(user_message: str, message):
+import discord
+
+
+def generate_user_prompt(user_message: str, message: discord.Message) -> str:
     # Filter out the bot itself from mentions
     target_users = [member for member in message.mentions if member.id != message.guild.me.id]
 
@@ -24,5 +27,5 @@ def generate_user_prompt(user_message: str, message):
     return (
         f"The user asked: '{user_message}'\n"
         f"Here is some metadata about the mentioned user:\n{debug_output}\n"
-        f"Use this info to generate a short, friendly, 1-line response describing the user."
+        f"Use this info to generate a short, friendly, response describing the user."
     )

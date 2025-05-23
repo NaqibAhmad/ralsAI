@@ -26,6 +26,10 @@ client = discord.Client(intents=intents)
 
 VALID_PERSONALITIES = {"normal", "friendly", "sarcastic", "dark humor", "dark humor sarcastic", "flirty"}
 
+TRUSTED_BOT_IDS = [
+    1336350743837409341,  
+    1372896968233189516   
+]
 @client.event
 async def on_ready():
     print(f'✅ Logged in as {client.user} (ID: {client.user.id})')
@@ -33,9 +37,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message: discord.Message):
-    if message.author.bot:
+    if message.author.bot and message.author.id not in TRUSTED_BOT_IDS:
+        print(f"⛔ Skipping message from untrusted bot: {message.author.name} (ID: {message.author.id})")
         return
-
+    
     if await handle_event_or_reminder(message):
         return
 
@@ -80,10 +85,11 @@ async def on_message(message: discord.Message):
 
             # 🧠 Personality formatting
             personality = get_personality(message.guild.id)
-            input_prompt = format_with_personality(input_prompt, personality)
+            final_prompt = format_with_personality(input_prompt, personality)
+            print(f"Final prompt: {final_prompt}")
 
             # 💬 Generate response
-            agent_response = await agent.arun(message=input_prompt)
+            agent_response = await agent.arun(message=final_prompt)
             assistant_message = getattr(agent_response, "content", None) or "🤖 I couldn't generate a response."
 
             await message.channel.send(f"{user_mention} {assistant_message}")

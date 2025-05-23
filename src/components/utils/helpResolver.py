@@ -3,12 +3,9 @@ import discord
 from src.components.agents.GroqAgent import agent
 from src.components.utils.intentClassifier import is_helpful_category, is_helpful_channel
 
-async def search_messages_for_help(guild: discord.Guild, message: discord.Message, limit_per_channel=10):
+async def search_messages_for_help(guild: discord.Guild, message: discord.Message, limit_per_channel=50):
     collected = []
 
-    # for channel in guild.text_channels:
-    #     if not isinstance(channel, discord.TextChannel):
-    #         continue
     helpful_category: List[discord.CategoryChannel] = []
     for category in guild.categories:
         try:
@@ -16,7 +13,7 @@ async def search_messages_for_help(guild: discord.Guild, message: discord.Messag
                 print(f"⛔ Skipping unhelpful category: {category.name}")
                 continue
 
-            print(f"🔍 Helpful category Found: {category.name}")
+            print(f"🔍 Helpful category found: {category.name}")
             helpful_category.append(category)
             
         except Exception as e:
@@ -29,7 +26,6 @@ async def search_messages_for_help(guild: discord.Guild, message: discord.Messag
 
     for category in helpful_category:
         for channel in category.text_channels:
-            # Use channel topic if available
             topic = channel.topic or ""
             try:
                 if not await is_helpful_channel(channel.name, message.content, topic):
@@ -38,14 +34,35 @@ async def search_messages_for_help(guild: discord.Guild, message: discord.Messag
 
                 print(f"🔍 Searching in helpful channel: {channel.name}")
                 async for channelMessage in channel.history(limit=limit_per_channel):
-                    print(f"📩 Message detected: {channelMessage.content}") 
-                    collected.append((channel.name, channelMessage.author.display_name, channelMessage.content))
+                    # Skip own bot messages
+                    if channelMessage.author.id == guild.me.id:
+                        continue
+
+                    # Start with text content
+                    text_content = channelMessage.content.strip()
+
+                    # Extract embed content
+                    embed_content = ""
+                    for embed in channelMessage.embeds:
+                        title = embed.title or ""
+                        desc = embed.description or ""
+                        fields = "\n".join(f"{f.name}: {f.value}" for f in embed.fields)
+                        embed_content += f"{title}\n{desc}\n{fields}\n"
+
+                    full_content = (text_content + "\n" + embed_content).strip()
+
+                    if full_content:
+                        sender_type = "BOT" if channelMessage.author.bot else "USER"
+                        print(f"📩 Message detected from {sender_type} ({channelMessage.author.display_name}): {full_content}")
+                        collected.append((channel.name, channelMessage.author.display_name, full_content))
 
             except Exception as e:
                 print(f"⚠️ Error in channel {channel.name}: {e}")
                 continue
-    print("COLLECTED CHANNELS AND MESSAGES" , collected)
+
+    print("✅ COLLECTED MESSAGES:", collected)
     return collected
+
 
 async def handle_help_request(message: discord.Message):
     guild = message.guild
