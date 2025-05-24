@@ -9,7 +9,8 @@ from src.components.prompts.userInfoPrompt import generate_user_prompt
 from src.components.utils.messageUtils import extract_clean_user_message
 from src.components.utils.eventReminder import handle_event_or_reminder
 from src.components.utils.personalityManager import set_personality, get_personality, format_with_personality
-from src.components.utils.helpResolver import handle_help_request
+from src.components.utils.helpResolver import handle_help_request_optimized as handle_help_request
+
 
 load_dotenv()
 

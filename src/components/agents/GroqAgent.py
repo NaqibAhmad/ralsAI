@@ -4,7 +4,6 @@ import os
 from agno.models.groq import Groq
 # from agno.models.openai import OpenAIChat
 
-from src.components.db.vectorDB import knowledge
 
 load_dotenv()
 
@@ -25,7 +24,6 @@ agent = Agent(model = Groq(id= "llama-3.3-70b-versatile", api_key=groq_api_key, 
             "Keep the tone casual, friendly, engaging and Human-like."
             "Use dark humour in your response only if explicitly mentioned"
             ],
-        knowledge=knowledge,
         markdown=True,
         debug_mode=True,
         )

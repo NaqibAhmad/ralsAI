@@ -15,6 +15,6 @@ def generate_context_from_guild(guild: Guild) -> str:
         f"Server Name: {info['name']}\n"
         f"Created On: {info['created_at']}\n"
         f"Total Members: {info['member_count']}\n"
-        f"Server Owner: {info['owner']}\n"
+        # f"Server Owner: {info['owner']}\n"
         f"Server ID: {info['id']}"
     )

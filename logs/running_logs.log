@@ -1,0 +1,33 @@
+2025-05-24 21:15:33,207 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:316} - DiscordBotLogger - INFO - 🆘 Help request from Nikki (598821815724277762): '<@1372896968233189516> I need some help:
+Can you tell me that what is the starting date for 3v3 valorant domination?'
+2025-05-24 21:15:33,749 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:323} - DiscordBotLogger - INFO - 🔄 Starting help message search...
+2025-05-24 21:15:33,749 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:285} - DiscordBotLogger - INFO - 🚀 Starting optimized help search for user Nikki in server 'THE RALS'
+2025-05-24 21:15:33,750 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:286} - DiscordBotLogger - INFO - 📝 User query: '<@1372896968233189516> I need some help:
+Can you tell me that what is the starting date for 3v3 valorant domination?'
+2025-05-24 21:15:33,751 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:212} - DiscordBotLogger - INFO - 🚀 Starting smart search in server 'THE RALS' for query: '<@1372896968233189516> I need some help:
+Can you tell me that what is the starting date for 3v3 valorant domination?'
+2025-05-24 21:15:33,752 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:216} - DiscordBotLogger - INFO - 🔍 Extracted keywords: ['some', '3v3', 'that', 'domination', 'need', '<@1372896968233189516>', 'valorant', 'date', 'starting', 'tell', 'can', 'help:']
+2025-05-24 21:15:33,765 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:250} - DiscordBotLogger - INFO - 🎯 Pre-filtering complete: 51 candidate channels (Keyword: 46, Help: 5)
+2025-05-24 21:15:33,765 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:88} - DiscordBotLogger - INFO - 📺 Starting channel classification for 51 channels
+2025-05-24 21:15:38,749 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#faq' marked as helpful
+2025-05-24 21:15:43,972 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#schedule' marked as helpful
+2025-05-24 21:15:43,972 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#tournament-chat' marked as helpful
+2025-05-24 21:15:55,235 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#t3-squad✅' marked as helpful
+2025-05-24 21:16:00,254 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#team-gg✅' marked as helpful
+2025-05-24 21:16:29,127 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#💬》general' marked as helpful
+2025-05-24 21:16:31,781 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:125} - DiscordBotLogger - INFO - ✅ Channel '#🏅》events' marked as helpful
+2025-05-24 21:16:31,781 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:129} - DiscordBotLogger - INFO - 🎯 Channel classification complete: 7/51 helpful (Cache hits: 0, API calls: 51)
+2025-05-24 21:16:31,782 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:255} - DiscordBotLogger - INFO - ✅ AI classified 7 channels as helpful
+2025-05-24 21:16:31,782 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:149} - DiscordBotLogger - INFO - 📨 Starting message collection from 7 channels
+2025-05-24 21:16:32,711 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:206} - DiscordBotLogger - ERROR - ❌ Error collecting messages from #schedule: 403 Forbidden (error code: 50001): Missing Access
+2025-05-24 21:16:32,765 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:206} - DiscordBotLogger - ERROR - ❌ Error collecting messages from #team-gg✅: 403 Forbidden (error code: 50001): Missing Access
+2025-05-24 21:16:32,784 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:206} - DiscordBotLogger - ERROR - ❌ Error collecting messages from #t3-squad✅: 403 Forbidden (error code: 50001): Missing Access
+2025-05-24 21:16:32,799 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:206} - DiscordBotLogger - ERROR - ❌ Error collecting messages from #tournament-chat: 403 Forbidden (error code: 50001): Missing Access
+2025-05-24 21:16:34,391 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:171} - DiscordBotLogger - INFO - 📊 Message collection complete: 189 total messages from 7/7 channels
+2025-05-24 21:16:34,392 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:304} - DiscordBotLogger - INFO - ⏱️ Search completed in 60.64 seconds
+2025-05-24 21:16:34,392 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:305} - DiscordBotLogger - INFO - 📊 Final results: 189 messages collected
+2025-05-24 21:16:34,393 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:276} - DiscordBotLogger - INFO - 📊 Performance Stats - Total searches: 1, Cache hits: 0, API calls: 51, Avg response time: 60.64s
+2025-05-24 21:16:34,393 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:333} - DiscordBotLogger - INFO - 📋 Using 15 most relevant messages for response generation
+2025-05-24 21:16:34,802 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:342} - DiscordBotLogger - INFO - 🤖 Generating AI response...
+2025-05-24 21:16:38,460 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:358} - DiscordBotLogger - INFO - ✅ Help request successfully handled
+2025-05-24 21:16:38,460 - p13320 - {D:\The Rals AI\src\components\utils\helpResolver.py:364} - DiscordBotLogger - INFO - 🏁 Help request processing complete
