@@ -20,7 +20,13 @@ from src.components.utils.personalityManager import (
 )
 
 load_dotenv()
+from fast_api import keep_alive
 
+keep_alive()  # Start the dummy web server
+
+
+
+# Your Discord bot logic below
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
 print(f"Channel ID: {CHANNEL_ID}")
