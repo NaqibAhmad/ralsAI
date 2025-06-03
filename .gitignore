@@ -11,3 +11,4 @@ wheels/
 test.py
 discord_bot.log
 logs
+.env
