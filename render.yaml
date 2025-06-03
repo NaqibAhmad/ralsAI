@@ -8,7 +8,7 @@ services:
       export PATH="/opt/render/.local/bin:$PATH"
       uv pip install --target=/opt/render/project/.venv/lib/python3.11/site-packages .
     startCommand: |
-      PYTHONPATH=/opt/render/project/.venv/lib/python3.11/site-packages uvicorn your_app.main:app --host 0.0.0.0 --port 10000
+      PYTHONPATH=/opt/render/project/.venv/lib/python3.11/site-packages python main.py
     envVars:
       - key: PYTHONPATH
         value: /opt/render/project/.venv/lib/python3.11/site-packages

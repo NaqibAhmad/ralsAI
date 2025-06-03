@@ -20,5 +20,7 @@ RUN uv pip install --system .
 # Set environment variable if needed (e.g., for .env loading libraries like dotenv)
 ENV PYTHONUNBUFFERED=1
 
+#port
+EXPOSE 4000
 # Run the main application
 CMD ["python", "main.py"]
