@@ -219,11 +219,70 @@ def generate_context_from_guild(guild: Guild) -> str:
     
     # Basic Information Section
     basic_section = f"""BASIC SERVER INFORMATION:
-Server Name: {info['name']}
-Created On: {info['created_at']}
-Server ID: {info['id']}
-Total Members: {info['member_count']}
-Verification Level: {info.get('verification_level', 'Unknown')}"""
+    Server Name: {info['name']}
+    Created On: {info['created_at']}
+    Server ID: {info['id']}
+    Total Members: {info['member_count']}
+    Verification Level: {info.get('verification_level', 'Unknown')}
+    general server info: 
+    🎮 Overview of THE RALS
+    •	Server Name: THE RALS
+    •	Creation Date: March 9, 2021
+    •	Member Count: Approximately 4344 members
+    •	Online Users: Around 2048 online at a time
+    •	Language: English, Hindi, Urdu
+    •	Region: Global
+    •	Invite Link: discord.gg/therals
+
+    THE RALS is designed as a safe and inclusive community for making friends, chilling, and enjoyment under one roof. It welcomes everyone regardless of age, gender, religion, etc. The server offers a variety of activities, including movie nights, song sessions, voice chat sessions, gaming, and daily streams. It also hosts fun events, activities, and weekly tournaments. Additionally, THE RALS has its own gaming clan that members can benefit from.
+
+
+    👥 Staff & Community Structure
+    the server is described as having a dedicated staff that actively moderates daily to ensure a chill and safe environment for everyone. 
+    Owners/Founders: Kat ( Pakistani ) , Anu and Tribb (Indian)
+    Co-Owner: Muski ( Pakistani/Canadian )
+
+    Admins: Asad, Liam, Todo
+
+    Moderator: Sarurah
+
+    Staff and Tournament Manager: botMAN
+
+    Community Features
+    •	Events & Activities:
+    o	Movie Nights
+    o	Game Nights
+    o	Tournaments with great prizes
+    o	Daily fun activities
+    o	QOTD (Question of the Day)
+    o	Polls
+    Channels & Bots:
+    •	Dedicated text channels for various topics
+    •	Separate and numerous voice channels for each topic
+    •	Fun bots like Dank Memer, Idle RPG, etc.
+
+    Community Engagement:
+    •	Welcoming and friendly public community
+    •	Supportive environment for gamers, content creators, and individuals seeking support
+    Encouragement for sharing artistic creations and helping with school work
+
+    📌 Organizational Highlights
+    •	Inclusivity: THE RALS embraces diversity and welcomes everyone with open arms, regardless of age, sexuality, race, or religion. 
+    •	Level 3 Perks: The server has achieved Level 3 perks, indicating a high level of community engagement and support. 
+    •	Gaming Clan: Members can benefit from THE RALS' own gaming clan, which provides additional opportunities for collaboration and competition. 
+
+    🏆 THE RALS: A Rising Esports Organization with a Thriving Community and Big Ambitions
+    THE RALS is not just a popular Discord server — it's an emerging esports organization rooted in community, competition, and creativity. Known for hosting regular tournaments, engaging events, and supporting a wide range of competitive games, THE RALS has quickly built a name for itself within the Pakistani gaming scene. The organization has successfully run weekly events, scrims, and clan wars across titles like Valorant, PUBG, with participation from both amateur and semi-pro players.
+    In the near future, THE RALS plans to:
+    •	Launch official esports rosters across multiple games.
+    •	Collaborate with influencers and streamers to expand its reach.
+    •	Host sponsored tournaments with cash prizes and brand partnerships.
+    •	Develop a content creation wing featuring YouTube and Twitch streams.
+    •	Establish a mentorship and coaching program for rising talent in the community.
+    Backed by an engaged team and a passionate player base, THE RALS is on track to become a major force in the regional esports ecosystem.
+
+
+"""
     
     if info.get('description'):
         basic_section += f"\nServer Description: {info['description']}"

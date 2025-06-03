@@ -56,9 +56,12 @@ async def on_message(message: discord.Message):
 
     if client.user in message.mentions:
         user_mention = message.author.mention
+        # Use improved extraction
         user_message = extract_clean_user_message(message, client.user.id, client.user.name)
-        print(f"Client name: {client.user.name}, ID: {client.user.id}")
-        print(f"📩 Mention detected from {user_mention}: {user_message}")
+        
+        # Debug: See what extraction produces (remove in production)
+        print(f"Original: {message.content}")
+        print(f"Cleaned: {user_message}")
 
         # 🧠 Enhanced personality management with improved validation
         if "set personality to" in user_message.lower():
