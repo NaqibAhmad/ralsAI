@@ -1,8 +1,6 @@
-import re
 import logging
-from typing import Optional, Dict, Any, List
-from datetime import datetime
-from discord import Guild, Role, TextChannel, VoiceChannel, CategoryChannel, Member
+from typing import Dict, Any
+from discord import Guild, TextChannel, VoiceChannel, CategoryChannel
 
 def get_server_info(guild: Guild) -> Dict[str, Any]:
     """

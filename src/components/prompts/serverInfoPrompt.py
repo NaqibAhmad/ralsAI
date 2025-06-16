@@ -1,6 +1,6 @@
 import re
 import logging
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 from src.components.utils.serverInfo import generate_context_from_guild
 import discord
 

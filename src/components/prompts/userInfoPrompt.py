@@ -1,6 +1,6 @@
 import discord
 from datetime import datetime, timezone
-from typing import List, Dict, Optional
+from typing import List, Dict
 import logging
 
 def generate_user_prompt(user_message: str, message: discord.Message) -> str:

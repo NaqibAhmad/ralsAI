@@ -2,13 +2,11 @@ from agno.agent import Agent
 from agno.models.groq import Groq
 import os
 
-import discord
-
 # A separate low-temp model just for classification (or reuse your agent)
 intent_agent = Agent(
     model=Groq(id="llama-3.3-70b-versatile", api_key=os.getenv("GROQ_API_KEY"), temperature=0),
     tools=[],
-    instructions=f"""
+    instructions="""
         ### ROLE & CONTEXT:
         "You are an expert intent classifier for Discord messages. Analyze the message content and context carefully."
         "Your task is to classify each message into exactly ONE of these four intents based on the PRIMARY PURPOSE of the message:"

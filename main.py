@@ -1,7 +1,8 @@
+import asyncio
+import aiohttp
 import discord
 import os
 from dotenv import load_dotenv
-
 from src.components.agents.GroqAgent import agent
 from src.components.utils.intentClassifier import classify_intent
 from src.components.prompts.serverInfoPrompt import generate_server_prompt
@@ -9,6 +10,7 @@ from src.components.prompts.userInfoPrompt import generate_user_prompt
 from src.components.utils.messageUtils import extract_clean_user_message
 from src.components.utils.eventReminder import handle_event_or_reminder
 from src.components.utils.helpResolver import handle_help_request_optimized as handle_help_request
+from fast_api import keep_alive
 
 # Updated import for improved personality manager
 from src.components.utils.personalityManager import (
@@ -20,11 +22,11 @@ from src.components.utils.personalityManager import (
 )
 
 load_dotenv()
-from fast_api import keep_alive
 
 keep_alive()  # Start the dummy web server
 
 
+print("DISCORD TOKEN" , os.getenv('DISCORD_TOKEN'))
 
 # Your Discord bot logic below
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_TOKEN')
@@ -46,8 +48,18 @@ TRUSTED_BOT_IDS = [
     1372896968233189516   
 ]
 
+async def self_pinger():
+    while True:
+        try:
+            async with aiohttp.ClientSession() as session:
+                await session.get("https://ralsai.onrender.com")
+        except Exception as e:
+            print(f"[Self-ping error]: {e}")
+        await asyncio.sleep(600)  # every 10 minutes
+
 @client.event
 async def on_ready():
+    client.loop.create_task(self_pinger())
     print(f'✅ Logged in as {client.user} (ID: {client.user.id})')
 
 
