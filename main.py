@@ -26,8 +26,6 @@ load_dotenv()
 keep_alive()  # Start the dummy web server
 
 
-print("DISCORD TOKEN" , os.getenv('DISCORD_TOKEN'))
-
 # Your Discord bot logic below
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
